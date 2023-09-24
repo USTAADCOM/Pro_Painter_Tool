@@ -1,0 +1,20 @@
+av
+addict
+einops
+future
+numpy
+scipy
+opencv-python
+matplotlib
+scikit-image
+torch>=2.0.1
+torchvision>=0.15.2
+imageio-ffmpeg==0.4.7
+pyyaml
+requests
+timm
+yapf
+gradio
+imageio==2.19.3
+Pillow
+mmcv-full==1.4.8 -f https://download.openmmlab.com/mmcv/dist/cu111/torch1.9.0/index.html
