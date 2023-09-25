@@ -252,7 +252,7 @@ def seg_track_app():
                 examples=[
                     os.path.join(os.path.dirname(__file__), "assets", "blackswan.mp4"),
                     os.path.join(os.path.dirname(__file__), "assets", "cars.mp4"),
-                    os.path.join(os.path.dirname(__file__), "assets", "cell.mp4"),
+                    # os.path.join(os.path.dirname(__file__), "assets", "cell.mp4"),
                     ],
                 inputs=[input_video],
             )
