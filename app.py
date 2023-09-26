@@ -55,11 +55,11 @@ def get_meta_from_video(Seg_Tracker, input_video, grounding_caption):
     cap.release()
     first_frame = cv2.cvtColor(first_frame, cv2.COLOR_BGR2RGB)
     Seg_Tracker, masked_frame, origin_frame = gd_detect(Seg_Tracker, first_frame, grounding_caption)
-    painted_video, masked_video_path, masked_images_folder_path, origional_images_folder_path, zip_path = tracking_objects(Seg_Tracker, input_video, frame_num=0)
-    print(masked_images_folder_path)
-    print(origional_images_folder_path)
-    os.system("python ProPainter/inference_propainter.py  --video "+ origional_images_folder_path + " --mask " + masked_images_folder_path)
-    #os.system("python /content/Segment-and-Track-Anything/ProPainter/inference_propainter.py --video /content/Segment-and-Track-Anything/tracking_results/blackswan/blackswan_masked_frames --mask /content/Segment-and-Track-Anything/tracking_results/blackswan/blackswan_masks")
+    painted_video, masked_video_path, masked_images_folder_path, origional_images_folder_path = tracking_objects(Seg_Tracker, input_video, frame_num=0)
+    os.system("python ProPainter/inference_propainter.py  --video "+ origional_images_folder_path + " --mask " + masked_images_folder_path + " --fp16")
+    del masked_images_folder_path, origional_images_folder_path
+    torch.cuda.empty_cache()
+    gc.collect()
     return masked_video_path, painted_video
 
 def SegTracker_add_first_frame(Seg_Tracker, origin_frame, predicted_mask):
@@ -259,4 +259,6 @@ def seg_track_app():
     app.queue(concurrency_count=1)
     app.launch(debug=True, enable_queue=True, share=True)
 if __name__ == "__main__":
+    torch.cuda.empty_cache()
+    gc.collect()
     seg_track_app()
