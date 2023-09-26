@@ -9,7 +9,7 @@ version.py
 # *.jpeg
 # *.jpg
 *.pt
-*.gif
+#*.gif
 *.pth
 *.dat
 *.zip
@@ -178,7 +178,7 @@ ckpt/*
 assets/*masks
 assets/*mp4
 # assets/*zip
-assets/*gif
+#assets/*gif
 *.pyc
 debug
 cym_utils
