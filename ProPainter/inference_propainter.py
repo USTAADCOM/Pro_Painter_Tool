@@ -278,8 +278,6 @@ if __name__ == '__main__':
         p.requires_grad = False
     fix_flow_complete.to(device)
     fix_flow_complete.eval()
-
-
     ##############################################
     # set up ProPainter model
     ##############################################
@@ -325,15 +323,11 @@ if __name__ == '__main__':
         else:
             gt_flows_bi = fix_raft(frames, iters=args.raft_iter)
             torch.cuda.empty_cache()
-
-
         if use_half:
             frames, flow_masks, masks_dilated = frames.half(), flow_masks.half(), masks_dilated.half()
             gt_flows_bi = (gt_flows_bi[0].half(), gt_flows_bi[1].half())
             fix_flow_complete = fix_flow_complete.half()
             model = model.half()
-
-
         # ---- complete flow ----
         flow_length = gt_flows_bi[0].size(1)
         if flow_length > args.subvideo_length:

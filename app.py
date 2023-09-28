@@ -250,7 +250,7 @@ def seg_track_app():
         with gr.Tab(label='Video example'):
             gr.Examples(
                 examples=[
-                    os.path.join(os.path.dirname(__file__), "assets", "blackswan.mp4"),
+                    #os.path.join(os.path.dirname(__file__), "assets", "blackswan.mp4"),
                     # os.path.join(os.path.dirname(__file__), "assets", "cars.mp4"),
                     # os.path.join(os.path.dirname(__file__), "assets", "cell.mp4"),
                     ],
