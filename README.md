@@ -18,11 +18,6 @@
   mkdir ./ckpt
   bash script/download_ckpt.sh
 ```
-## Note
-If R50_DeAOTL_PRE_YTB_DAV.pth not download automatically then go to thr ckpt folder and execute
-```code
-wget https://drive.google.com/uc?id=1QoChMkTVxdYZ_eBlZhK2acq9KMQZccPJ
-```
 ## Run Gradio Demo
 ```code
 python3 app.py 
