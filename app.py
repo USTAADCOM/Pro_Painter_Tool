@@ -46,7 +46,8 @@ def gd_detect(Seg_Tracker, origin_frame, grounding_caption):
     masked_frame = draw_mask(annotated_frame, predicted_mask)
     return Seg_Tracker, masked_frame, origin_frame
 
-def get_meta_from_video(Seg_Tracker, input_video, grounding_caption):
+def get_meta_from_video(Seg_Tracker, input_video, grounding_caption,
+                        input_steps, output_steps, height, width):
     if input_video is None:
         return None, None, None, ""
     print("get meta information of input video")
@@ -56,7 +57,7 @@ def get_meta_from_video(Seg_Tracker, input_video, grounding_caption):
     first_frame = cv2.cvtColor(first_frame, cv2.COLOR_BGR2RGB)
     Seg_Tracker, masked_frame, origin_frame = gd_detect(Seg_Tracker, first_frame, grounding_caption)
     painted_video, masked_video_path, masked_images_folder_path, origional_images_folder_path = tracking_objects(Seg_Tracker, input_video, frame_num=0)
-    os.system("python ProPainter/inference_propainter.py  --video "+ origional_images_folder_path + " --mask " + masked_images_folder_path + " --fp16")
+    os.system("python ProPainter/inference_propainter.py  --video "+ origional_images_folder_path + " --mask " + masked_images_folder_path + " --height " + str(height) + " --width " + str(width) + " --subvideo_length " + str(input_steps) + " --save_fps " + str(output_steps) + " --fp16")
     del masked_images_folder_path, origional_images_folder_path
     torch.cuda.empty_cache()
     gc.collect()
@@ -221,8 +222,27 @@ def seg_track_app():
             with gr.Column():
                 with gr.Row():
                     detect_button = gr.Button(value = "Paint Object")
-                    new_object_button = gr.Button(value="Add new object", interactive=True)
-
+                    new_object_button = gr.Button(value="Clear", interactive=True)
+        with gr.Row(label='Parameters', variant="panel"):
+            with gr.Column():
+                with gr.Row():
+                    gr.Markdown("## Parameters")
+                with gr.Row():
+                    with gr.Accordion(label='Parameters'):
+                        input_steps = gr.Slider(label='Number of input Video Frames',
+                                      maximum = 80,
+                                      step= 5,
+                                      )
+                        output_steps = gr.Slider(label='Number of Output Video Frames',
+                                                maximum = 30,
+                                                step = 5,
+                                               )
+                        width = gr.Dropdown(choices = [220, 320, 720, 1024],
+                                        label='Width',
+                                        visible=True)
+                        height = gr.Dropdown(choices = [120, 240, 512, 720],
+                                         label = 'height',
+                                         visible = True)
     ##########################################################
     ######################  back-end #########################
     ##########################################################
@@ -231,7 +251,8 @@ def seg_track_app():
         detect_button.click(
             fn=get_meta_from_video,
             inputs=[
-                Seg_Tracker, input_video, grounding_caption
+                Seg_Tracker, input_video, grounding_caption, 
+                input_steps, output_steps, width, height
                 ],
             outputs = [masked_video, output_video]
                 )
