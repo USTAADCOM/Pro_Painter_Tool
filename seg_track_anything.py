@@ -191,7 +191,7 @@ def video_type_input_tracking(SegTracker, input_video, io_args, video_name, fram
     del SegTracker
     torch.cuda.empty_cache()
     gc.collect()
-    return f'results/{video_name}_masked_frames/inpaint_out.mp4', f'results/{video_name}_masked_frames/masked_in.mp4', io_args['output_mask_dir'], io_args['output_masked_frame_dir']
+    return f'results/{video_name}_masked_frames/inpaint_out.mp4', f'results_masked/{video_name}_masked_frames/masked_in.mp4', io_args['output_mask_dir'], io_args['output_masked_frame_dir']
 def img_seq_type_input_tracking(SegTracker, io_args, video_name, imgs_path, fps, frame_num=0):
 
     pred_list = []

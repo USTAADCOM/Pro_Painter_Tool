@@ -57,7 +57,10 @@ def get_meta_from_video(Seg_Tracker, input_video, grounding_caption,
     first_frame = cv2.cvtColor(first_frame, cv2.COLOR_BGR2RGB)
     Seg_Tracker, masked_frame, origin_frame = gd_detect(Seg_Tracker, first_frame, grounding_caption)
     painted_video, masked_video_path, masked_images_folder_path, origional_images_folder_path = tracking_objects(Seg_Tracker, input_video, frame_num=0)
-    os.system("python ProPainter/inference_propainter.py  --video "+ origional_images_folder_path + " --mask " + masked_images_folder_path + " --height " + str(height) + " --width " + str(width) + " --subvideo_length " + str(input_steps) + " --save_fps " + str(output_steps) + " --fp16")
+    if (input_steps == 0) or (output_steps == 0) or (height==0) or (width == 0):
+        os.system("python ProPainter/inference_propainter.py  --video "+ origional_images_folder_path + " --mask " + masked_images_folder_path + " --fp16")
+    else:
+        os.system("python ProPainter/inference_propainter.py  --video "+ origional_images_folder_path + " --mask " + masked_images_folder_path + " --height " + str(height) + " --width " + str(width) + " --subvideo_length " + str(input_steps) + " --save_fps " + str(output_steps) + " --fp16")
     del masked_images_folder_path, origional_images_folder_path
     torch.cuda.empty_cache()
     gc.collect()
